@@ -1,0 +1,7 @@
+{
+  "appId": "com.offlineProgrammer.temperatureCity",
+  "appName": "temperatureCity",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www"
+}
