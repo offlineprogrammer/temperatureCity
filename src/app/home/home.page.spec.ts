@@ -32,9 +32,9 @@ describe('HomePage', () => {
   });
 
   it('displays current city name', () => {
-    
+
     fixture.detectChanges();
-    de = fixture.debugElement.query(By.css("ion-card-title"));
+    de = fixture.debugElement.query(By.css('ion-card-title'));
     el = de.nativeElement;
     expect(el.textContent).toContain('City');
   });
