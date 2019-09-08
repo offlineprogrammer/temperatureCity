@@ -39,4 +39,12 @@ describe('HomePage', () => {
     expect(el.textContent).toContain('City');
   });
 
+  it('displays google map', () => {
+
+    fixture.detectChanges();
+    de = fixture.debugElement.query(By.css('google-map'));
+    el = de.nativeElement;
+    expect(de).toBeTruthy();
+  });
+
 });
