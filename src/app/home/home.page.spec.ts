@@ -4,6 +4,9 @@ import { IonicModule } from '@ionic/angular';
 import { HomePage } from './home.page';
 import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { GoogleMapsComponent } from '../google-maps/google-maps.component';
+
 
 describe('HomePage', () => {
   let component: HomePage;
@@ -13,7 +16,10 @@ describe('HomePage', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ HomePage ],
+      declarations: [ HomePage, GoogleMapsComponent ],
+      schemas: [
+        CUSTOM_ELEMENTS_SCHEMA
+      ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
@@ -42,7 +48,8 @@ describe('HomePage', () => {
   it('displays google map', () => {
 
     fixture.detectChanges();
-    de = fixture.debugElement.query(By.css('google-map'));
+    de = fixture.debugElement.query(By.css('app-google-maps'));
+    console.log(de);
     el = de.nativeElement;
     expect(de).toBeTruthy();
   });
