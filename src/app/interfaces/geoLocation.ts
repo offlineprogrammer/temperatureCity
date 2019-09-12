@@ -1,4 +1,5 @@
-export interface Location {
+export interface geoLocation {
+  
   locality: string;
   country: string;
 }
