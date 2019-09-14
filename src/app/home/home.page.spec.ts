@@ -38,15 +38,21 @@ describe('HomePage', () => {
   });
 
   it('displays current city name', () => {
-
     fixture.detectChanges();
-    de = fixture.debugElement.query(By.css('ion-card-title'));
+    de = fixture.debugElement.query(By.css('.cityName'));
     el = de.nativeElement;
     expect(el.textContent).toContain('City');
   });
 
-  it('displays google map', () => {
+  it('displays current country name', () => {
+    fixture.detectChanges();
+    de = fixture.debugElement.query(By.css('.countryName'));
+    el = de.nativeElement;
+    expect(el.textContent).toContain('City');
+  });
 
+
+  it('displays google map', () => {
     fixture.detectChanges();
     de = fixture.debugElement.query(By.css('app-google-maps'));
     console.log(de);

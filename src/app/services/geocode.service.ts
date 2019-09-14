@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { analyzeAndValidateNgModules } from '@angular/compiler';
 import { geoLocation } from '../interfaces/geoLocation';
 
 const apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=31.963158,35.930359&key=';
@@ -9,20 +7,22 @@ const apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=31.9631
   providedIn: 'root'
 })
 export class GeocodeService {
+  public loaded = false;
 
   public location: geoLocation;
 
-  constructor(private http: HttpClient) {
+  constructor() {
     this.location = {
       locality: '',
       country: ''
     };
    }
 
+   async load() {
+    this.loaded = true;
+  }
 
   async getAddress(latlng: number ) {
-
-
     try {
       const response = await fetch(apiUrl);
       if (!response.ok) {
@@ -44,7 +44,7 @@ export class GeocodeService {
         }
       }
       console.log(this.location);
-      return json;
+      return this.location;
     } catch (error) {
       console.log(error);
     }
