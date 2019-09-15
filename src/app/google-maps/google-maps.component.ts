@@ -16,6 +16,10 @@ export class GoogleMapsComponent implements OnInit {
     @Input('apiKey') apiKey: string;
 
     public map: any;
+    public mylatLng: string;
+    public lat: number;
+    public lng: number;
+    public bReady = false;
     public markers: any[] = [];
     private mapsLoaded: boolean = false;
     private networkHandler = null;
@@ -62,11 +66,11 @@ export class GoogleMapsComponent implements OnInit {
 
         return new Promise((resolve, reject) => {
 
-            if(!this.mapsLoaded){
+            if (!this.mapsLoaded){
 
                 Network.getStatus().then((status) => {
 
-                    if(status.connected){
+                    if (status.connected){
 
                         this.injectSDK().then((res) => {
                             resolve(true);
@@ -76,15 +80,16 @@ export class GoogleMapsComponent implements OnInit {
 
                     } else {
 
-                        if(this.networkHandler == null){
+                        if (this.networkHandler == null){
 
                             this.networkHandler = Network.addListener('networkStatusChange', (status) => {
 
-                                if(status.connected){
+                                if (status.connected){
 
                                     this.networkHandler.remove();
 
                                     this.init().then((res) => {
+                                        this.bReady = true;
                                         console.log("Google Maps ready.")
                                     }, (err) => {    
                                         console.log(err);
@@ -102,7 +107,7 @@ export class GoogleMapsComponent implements OnInit {
                 }, (err) => {
 
                     // NOTE: navigator.onLine temporarily required until Network plugin has web implementation
-                    if(navigator.onLine){
+                    if (navigator.onLine){
 
                         this.injectSDK().then((res) => {
                             resolve(true);
@@ -137,7 +142,7 @@ export class GoogleMapsComponent implements OnInit {
             let script = this.renderer.createElement('script');
             script.id = 'googleMaps';
 
-            if(this.apiKey){
+            if (this.apiKey){
                 script.src = 'https://maps.googleapis.com/maps/api/js?key=' + this.apiKey + '&callback=mapInit';
             } else {
                 script.src = 'https://maps.googleapis.com/maps/api/js?callback=mapInit';       
@@ -156,8 +161,11 @@ export class GoogleMapsComponent implements OnInit {
             Geolocation.getCurrentPosition().then((position) => {
 
                 console.log(position);
+                this.mylatLng = (position.coords.latitude.toString() + ',' + position.coords.longitude.toString());
+                console.log(this.mylatLng);
 
                 let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                
 
                 let mapOptions = {
                     center: latLng,

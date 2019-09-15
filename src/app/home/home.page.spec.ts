@@ -6,6 +6,8 @@ import { DebugElement } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { GoogleMapsComponent } from '../google-maps/google-maps.component';
+import { GeocodeServiceMock } from '../mocks';
+import { GeocodeService } from '../services/geocode.service';
 
 
 describe('HomePage', () => {
@@ -17,6 +19,7 @@ describe('HomePage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HomePage, GoogleMapsComponent ],
+      providers: [{provide:GeocodeService, useClass: GeocodeServiceMock}],
       schemas: [
         CUSTOM_ELEMENTS_SCHEMA
       ],
@@ -41,15 +44,10 @@ describe('HomePage', () => {
     fixture.detectChanges();
     de = fixture.debugElement.query(By.css('.cityName'));
     el = de.nativeElement;
-    expect(el.textContent).toContain('City');
+    expect(el.textContent).toContain('myCity');
   });
 
-  it('displays current country name', () => {
-    fixture.detectChanges();
-    de = fixture.debugElement.query(By.css('.countryName'));
-    el = de.nativeElement;
-    expect(el.textContent).toContain('City');
-  });
+ 
 
 
   it('displays google map', () => {
@@ -59,5 +57,16 @@ describe('HomePage', () => {
     el = de.nativeElement;
     expect(de).toBeTruthy();
   });
+
+
+  it('displays myCountry', async(() => {
+    fixture.whenStable().then(() => {
+    fixture.detectChanges();
+    de = fixture.debugElement.query(By.css('.countryName'));
+    el = de.nativeElement;
+    console.log(el);
+    expect(el.textContent).toContain('myCountry');
+});
+}));
 
 });

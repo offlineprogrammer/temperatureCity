@@ -11,8 +11,8 @@
     
     <ion-card-header>
       <ion-card-subtitle>Destination</ion-card-subtitle>
-      <ion-card-title class="cityName">City</ion-card-title>
-      <ion-card-title class="countryName">Country</ion-card-title>
+      <ion-card-title class="cityName">{{ location.locality }}</ion-card-title>
+      <ion-card-title class="countryName">{{ location.country }}</ion-card-title>
     </ion-card-header>
     <ion-card-content>
        
@@ -20,6 +20,5 @@
 
     </ion-card-content>
   </ion-card>
-  <ion-button expand="block" (click)='testMarker()'></ion-button>   
   <app-google-maps apiKey=""></app-google-maps>
   </ion-content>

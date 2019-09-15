@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Plugins } from '@capacitor/core';
+const { Geolocation, Network } = Plugins;
 import { GoogleMapsComponent } from '../google-maps/google-maps.component';
 
 import {GeocodeService} from '../services/geocode.service';
@@ -27,35 +28,32 @@ export class HomePage  implements OnInit  {
       locality: '',
       country: ''
     };
-    
+
   }
 
-  async testMarker(){
-    const myaddress = this.geocodeService.getAddress(123);
-    console.log(myaddress);
-
-   
-
-  //  console.log('Clicked');
-    const center = this.mapComponent.map.getCenter();
-    this.mapComponent.addMarker(center.lat(), center.lng());
-
-}
 
 ngOnInit() {
-  
-  if (this.geocodeService.loaded) {
-    this.geocodeService.getAddress(123).then((result) => {
-      this.location = result;
-    });
 
-  } else {
-    this.geocodeService.load().then(() => {
-      this.geocodeService.getAddress(123).then((result) => {
+  let mylatLng : string;
+
+  Geolocation.getCurrentPosition().then((position) => {
+    mylatLng = (position.coords.latitude.toString() + ',' + position.coords.longitude.toString());
+    console.log('Location is '+ mylatLng);
+    if (this.geocodeService.loaded) {
+      this.geocodeService.getAddress(mylatLng).then((result) => {
         this.location = result;
       });
-    });
-  }
+  
+    } else {
+      this.geocodeService.load().then(() => {
+        this.geocodeService.getAddress(mylatLng).then((result) => {
+          this.location = result;
+        });
+      });
+    }
+  });
+
+  
 }
 
 

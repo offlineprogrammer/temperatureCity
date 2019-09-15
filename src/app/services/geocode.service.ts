@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { geoLocation } from '../interfaces/geoLocation';
 
-const apiUrl = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=31.963158,35.930359&key=';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeocodeService {
   public loaded = false;
-
+  private apiKey =  'YOUR_API_KEY_HERE';
   public location: geoLocation;
 
   constructor() {
@@ -22,9 +22,9 @@ export class GeocodeService {
     this.loaded = true;
   }
 
-  async getAddress(latlng: number ) {
+  async getAddress(locationlatlng: string ) {
     try {
-      const response = await fetch(apiUrl);
+      const response = await fetch( `https://maps.googleapis.com/maps/api/geocode/json?latlng=${locationlatlng}&key=${this.apiKey}`);
       if (!response.ok) {
         throw new Error(response.statusText);
         }
